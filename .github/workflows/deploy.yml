@@ -42,6 +42,13 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      # ── Debug: Check secrets ───────────────────────────────
+      - name: Check secrets (masked)
+        run: |
+          echo "Host exists: ${{ secrets.SERVER_HOST != '' }}"
+          echo "User exists: ${{ secrets.SERVER_USER != '' }}"
+          echo "Key exists: ${{ secrets.SSH_PRIVATE_KEY != '' }}"
+
       # ── 5. Deploy to server via SSH ───────────────────────
       - name: Deploy to server
         uses: appleboy/ssh-action@v1.2.0
