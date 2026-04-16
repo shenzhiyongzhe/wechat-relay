@@ -28,17 +28,19 @@ interface EditForm {
 }
 
 export default function HomePage() {
-  const [messages, setMessages]         = useState<Message[]>([]);
-  const [filter, setFilter]             = useState<'all' | 'pending' | 'submitted'>('all');
-  const [selected, setSelected]         = useState<Set<string>>(new Set());
-  const [loading, setLoading]           = useState(true);
-  const [submitting, setSubmitting]     = useState(false);
-  const [editTarget, setEditTarget]     = useState<Message | null>(null);
-  const [editForm, setEditForm]         = useState<EditForm>({ name: '', end_of_id: '', remark: '', creator_name: '' });
-  const [toasts, setToasts]             = useState<Toast[]>([]);
+  const [messages, setMessages]           = useState<Message[]>([]);
+  const [filter, setFilter]               = useState<'all' | 'pending' | 'submitted'>('all');
+  const [selected, setSelected]           = useState<Set<string>>(new Set());
+  const [loading, setLoading]             = useState(true);
+  const [submitting, setSubmitting]       = useState(false);
+  const [editTarget, setEditTarget]       = useState<Message | null>(null);
+  const [editForm, setEditForm]           = useState<EditForm>({ name: '', end_of_id: '', remark: '', creator_name: '' });
+  const [toasts, setToasts]               = useState<Toast[]>([]);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
-  const intervalRef                     = useRef<ReturnType<typeof setInterval> | null>(null);
-  const fetchMessagesRef                = useRef<((silent?: boolean) => Promise<void>) | null>(null);
+  const [batchDeleteConfirm, setBatchDeleteConfirm] = useState(false);
+  const [batchDeleting, setBatchDeleting] = useState(false);
+  const intervalRef                       = useRef<ReturnType<typeof setInterval> | null>(null);
+  const fetchMessagesRef                  = useRef<((silent?: boolean) => Promise<void>) | null>(null);
 
   /* ── Toast ── */
   const addToast = useCallback((type: Toast['type'], message: string) => {
@@ -134,6 +136,32 @@ export default function HomePage() {
       } else addToast('error', data.message || '删除失败');
     } catch { addToast('error', '网络错误，删除失败'); }
     finally { setDeleteConfirm(null); }
+  };
+
+  /* ── Batch Delete ── */
+  const batchDelete = async () => {
+    if (selected.size === 0) return;
+    setBatchDeleting(true);
+    try {
+      const res  = await fetch('/api/messages', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids: Array.from(selected) }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        addToast('success', data.message);
+        clearSelection();
+        fetchMessagesRef.current?.(true);
+      } else {
+        addToast('error', data.message || '批量删除失败');
+      }
+    } catch {
+      addToast('error', '网络错误，批量删除失败');
+    } finally {
+      setBatchDeleting(false);
+      setBatchDeleteConfirm(false);
+    }
   };
 
   /* ── Batch Submit ── */
@@ -246,6 +274,14 @@ export default function HomePage() {
           </span>
           <button id="btn-clear-select" className="btn btn-secondary btn-sm" onClick={clearSelection}>
             取消选择
+          </button>
+          <button
+            id="btn-batch-delete"
+            className="btn btn-danger btn-sm"
+            onClick={() => setBatchDeleteConfirm(true)}
+            disabled={batchDeleting || selected.size === 0}
+          >
+            🗑 批量删除 ({selected.size})
           </button>
           <button
             id="btn-batch-submit"
@@ -395,6 +431,54 @@ export default function HomePage() {
             <div className="modal-footer">
               <button id="btn-cancel-edit" className="btn btn-secondary" onClick={closeEdit}>取消</button>
               <button id="btn-save-edit"   className="btn btn-primary"   onClick={saveEdit}>保存修改</button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* ── Batch Delete Confirm Modal ── */}
+      {batchDeleteConfirm && (
+        <div
+          className="modal-overlay"
+          onClick={e => { if (e.target === e.currentTarget) setBatchDeleteConfirm(false); }}
+        >
+          <div className="modal" role="dialog" aria-modal="true" style={{ maxWidth: 420 }}>
+            <div className="modal-header">
+              <span className="modal-title">⚠️ 确认批量删除</span>
+              <button className="modal-close" onClick={() => setBatchDeleteConfirm(false)} aria-label="关闭">✕</button>
+            </div>
+            <div className="modal-body">
+              <p style={{ margin: 0, lineHeight: 1.7, color: 'var(--text-secondary)' }}>
+                即将删除 <strong style={{ color: 'var(--danger)' }}>{selected.size} 条</strong>记录：
+              </p>
+              <ul style={{ margin: '12px 0 0', paddingLeft: 20, color: 'var(--text-secondary)', lineHeight: 1.9 }}>
+                {pendingSelected.length > 0 && (
+                  <li>待提报 <strong>{pendingSelected.length}</strong> 条</li>
+                )}
+                {selected.size - pendingSelected.length > 0 && (
+                  <li>已提报 <strong>{selected.size - pendingSelected.length}</strong> 条</li>
+                )}
+              </ul>
+              <p style={{ margin: '12px 0 0', color: 'var(--danger)', fontSize: '0.85rem' }}>
+                此操作不可撤销，请确认是否继续。
+              </p>
+            </div>
+            <div className="modal-footer">
+              <button
+                id="btn-cancel-batch-delete"
+                className="btn btn-secondary"
+                onClick={() => setBatchDeleteConfirm(false)}
+                disabled={batchDeleting}
+              >
+                取消
+              </button>
+              <button
+                id="btn-confirm-batch-delete"
+                className="btn btn-danger"
+                onClick={batchDelete}
+                disabled={batchDeleting}
+              >
+                {batchDeleting ? <><span className="spinner" /> 删除中...</> : `确认删除 (${selected.size})`}
+              </button>
             </div>
           </div>
         </div>

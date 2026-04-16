@@ -81,6 +81,15 @@ export async function deleteMessage(id: string): Promise<boolean> {
   return db.data.messages.length < before;
 }
 
+export async function deleteMessages(ids: string[]): Promise<number> {
+  const db = await getDb();
+  const before = db.data.messages.length;
+  const idSet = new Set(ids);
+  db.data.messages = db.data.messages.filter(m => !idSet.has(m.id));
+  await db.write();
+  return before - db.data.messages.length;
+}
+
 export async function markAsSubmitted(ids: string[]): Promise<void> {
   const db = await getDb();
   const now = new Date().toISOString();

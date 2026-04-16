@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllMessages, createMessage } from '@/lib/db';
+import { getAllMessages, createMessage, deleteMessages } from '@/lib/db';
 
 // GET /api/messages — 获取消息列表
 export async function GET(req: NextRequest) {
@@ -7,6 +7,25 @@ export async function GET(req: NextRequest) {
   const status = searchParams.get('status') || undefined;
   const messages = await getAllMessages(status);
   return NextResponse.json({ success: true, data: messages });
+}
+
+// DELETE /api/messages — 批量删除
+export async function DELETE(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const { ids } = body as { ids: string[] };
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return NextResponse.json(
+        { success: false, message: '请提供要删除的 ID 列表' },
+        { status: 400 }
+      );
+    }
+    const count = await deleteMessages(ids);
+    return NextResponse.json({ success: true, count, message: `已删除 ${count} 条记录` });
+  } catch (e) {
+    console.error('DELETE /api/messages error:', e);
+    return NextResponse.json({ success: false, message: '服务器内部错误' }, { status: 500 });
+  }
 }
 
 // POST /api/messages — 接收 Python 脚本推送的数据（含服务端去重）

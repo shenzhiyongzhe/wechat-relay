@@ -1,3 +1,15 @@
 {
-  "messages": []
+  "messages": [
+    {
+      "id": "6f99799c-0bed-4035-a102-e021c5fcdb8a",
+      "name": "吴志",
+      "end_of_id": "181533",
+      "remark": "吴志181533\n协商客，其他资方本金都追不回来。直接拒了",
+      "creator_name": "Self",
+      "source": "wechat",
+      "status": "pending",
+      "created_at": "2026-04-16T05:09:37.436Z",
+      "updated_at": "2026-04-16T05:09:37.436Z"
+    }
+  ]
 }
