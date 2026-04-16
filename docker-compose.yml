@@ -1,0 +1,32 @@
+services:
+  # ── Next.js Application ──────────────────────────────────
+  app:
+    image: ${DOCKERHUB_USERNAME}/wechat-relay:${IMAGE_TAG:-latest}
+    container_name: wechat-relay-app
+    expose:
+      - "3000"
+    volumes:
+      # Persist lowdb file database — CRITICAL: data survives container restarts
+      - ./data:/app/data
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/messages || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  # ── Nginx Reverse Proxy ───────────────────────────────────
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: wechat-relay-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      app:
+        condition: service_healthy
+    restart: unless-stopped

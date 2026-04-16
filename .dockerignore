@@ -1,0 +1,44 @@
+# Dependency directories
+node_modules
+npm-debug.log*
+
+# Next.js build output
+.next
+out
+build
+
+# Development files
+*.md
+*.test.*
+*.spec.*
+__tests__
+
+# Local data (managed by volume on server)
+data/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# CI/CD
+.github
+
+# Docker
+Dockerfile
+docker-compose*.yml
+nginx.conf
