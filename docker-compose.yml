@@ -3,6 +3,7 @@ services:
   app:
     image: ${DOCKERHUB_USERNAME}/wechat-relay:${IMAGE_TAG:-latest}
     container_name: wechat-relay-app
+    network_mode: "host"  # 使用宿主机网络
     expose:
       - "3000"
     volumes:
