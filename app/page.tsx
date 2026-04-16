@@ -38,6 +38,7 @@ export default function HomePage() {
   const [toasts, setToasts]             = useState<Toast[]>([]);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const intervalRef                     = useRef<ReturnType<typeof setInterval> | null>(null);
+  const fetchMessagesRef                = useRef<((silent?: boolean) => Promise<void>) | null>(null);
 
   /* ── Toast ── */
   const addToast = useCallback((type: Toast['type'], message: string) => {
@@ -60,11 +61,18 @@ export default function HomePage() {
     }
   }, [addToast]);
 
+  // Keep ref in sync with the latest fetchMessages so the interval
+  // always calls the up-to-date version without being a dependency itself.
   useEffect(() => {
-    fetchMessages();
-    intervalRef.current = setInterval(() => fetchMessages(true), 3000);
+    fetchMessagesRef.current = fetchMessages;
+  });
+
+  // Mount-only effect: initial load + polling. Never re-runs.
+  useEffect(() => {
+    fetchMessagesRef.current?.();
+    intervalRef.current = setInterval(() => fetchMessagesRef.current?.(true), 3000);
     return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
-  }, [fetchMessages]);
+  }, []);
 
   /* ── Derived counts ── */
   const filtered       = messages.filter(m => filter === 'all' ? true : m.status === filter);
