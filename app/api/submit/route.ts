@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllMessages, markAsSubmitted } from '@/lib/db';
 
-const FINAL_SERVER_URL = 'http://localhost:8001/persons/wechat_input';
+const FINAL_SERVER_URL = 'http://114.67.174.175:8001/persons/wechat_input';
 
 // POST /api/submit — 批量提交选中的消息到最终服务器
 export async function POST(req: NextRequest) {

@@ -10,6 +10,116 @@
       "status": "pending",
       "created_at": "2026-04-16T05:09:37.436Z",
       "updated_at": "2026-04-16T05:09:37.436Z"
+    },
+    {
+      "id": "3bd88424-0c82-451b-b1fc-11091c2ce76f",
+      "name": "邓嘉威",
+      "end_of_id": "174815",
+      "remark": "邓嘉威174815\n这个客户是做教培的。做了两年，每个月工资发银行卡能核实借这个钱是用于信用卡周转。房子租了5年。方案都跟他说了，他能接受安排上门考察",
+      "creator_name": "Self",
+      "source": "wechat",
+      "status": "pending",
+      "created_at": "2026-04-27T02:40:47.095Z",
+      "updated_at": "2026-04-27T02:40:47.095Z"
+    },
+    {
+      "id": "7dd2f006-c6e5-436b-8876-2ea4ad40209e",
+      "name": "吴志更",
+      "end_of_id": "181533",
+      "remark": "吴志更181533\n协商客，其他资方本金都追不回来。直接拒了",
+      "creator_name": "Self",
+      "source": "wechat",
+      "status": "submitted",
+      "created_at": "2026-04-27T03:04:43.840Z",
+      "updated_at": "2026-04-27T03:09:37.917Z"
+    },
+    {
+      "id": "9c8c0a1d-b664-4a57-83d2-1d576b5ed8ca",
+      "name": "吴志更",
+      "end_of_id": "181533",
+      "remark": "吴志更181533",
+      "creator_name": "Self",
+      "source": "wechat",
+      "status": "submitted",
+      "created_at": "2026-04-27T03:05:00.369Z",
+      "updated_at": "2026-04-27T03:09:15.532Z"
+    },
+    {
+      "id": "36ee3bf7-98a0-4a9f-887b-ba4d9c1df86a",
+      "name": "吴志更",
+      "end_of_id": "181533",
+      "remark": "吴志更181533\n引用  的消息 : 吴志更181534",
+      "creator_name": "Self",
+      "source": "wechat",
+      "status": "submitted",
+      "created_at": "2026-04-27T03:14:15.954Z",
+      "updated_at": "2026-04-27T03:14:57.259Z"
+    },
+    {
+      "id": "97d40c03-1cdc-423c-8144-bd7be477c790",
+      "name": "吴志更",
+      "end_of_id": "181534",
+      "remark": "吴志更181533\n引用  的消息 : 吴志更181534",
+      "creator_name": "Self",
+      "source": "wechat",
+      "status": "pending",
+      "created_at": "2026-04-27T03:14:15.983Z",
+      "updated_at": "2026-04-27T03:14:15.983Z"
+    },
+    {
+      "id": "48aa6683-5078-4a62-97b9-79afab2eeb9d",
+      "name": "吴志更",
+      "end_of_id": "181533",
+      "remark": "吴志更181533 我们的",
+      "creator_name": "小默",
+      "source": "wechat",
+      "status": "submitted",
+      "created_at": "2026-04-27T03:15:47.496Z",
+      "updated_at": "2026-04-27T03:16:01.259Z"
+    },
+    {
+      "id": "e66c6b67-d604-4f77-b7e3-0eb56e65c6e2",
+      "name": "吴志更",
+      "end_of_id": "181533",
+      "remark": "吴志更181533 我们的",
+      "creator_name": "小默",
+      "source": "wechat",
+      "status": "submitted",
+      "created_at": "2026-04-27T03:29:52.691Z",
+      "updated_at": "2026-04-27T03:30:08.557Z"
+    },
+    {
+      "id": "66a25b4b-1c90-483d-b449-1e7b64fe7ddd",
+      "name": "吴志更",
+      "end_of_id": "181533",
+      "remark": "吴志更181533  消息发送时间:2026-04-27 11:30:52【<wxauto Chat Window at 0x2a3c77bb230 for 张三小群>】小默查询过",
+      "creator_name": "小默",
+      "source": "wechat",
+      "status": "pending",
+      "created_at": "2026-04-27T03:30:52.973Z",
+      "updated_at": "2026-04-27T03:30:52.973Z"
+    },
+    {
+      "id": "491b93e9-2d91-4fed-9e7d-426b1509de19",
+      "name": "吴志更",
+      "end_of_id": "181533",
+      "remark": "吴志更181533  :2026-04-27 11:35:12【张三小群】小默查询过",
+      "creator_name": "小默",
+      "source": "wechat",
+      "status": "pending",
+      "created_at": "2026-04-27T03:35:12.840Z",
+      "updated_at": "2026-04-27T03:35:12.840Z"
+    },
+    {
+      "id": "c0504026-eb18-42e1-bd2c-eabdc364a1cb",
+      "name": "吴志更",
+      "end_of_id": "181533",
+      "remark": "[2026-04-27 11:37:34 - 张三小群 - 小默 查询过 吴志更181533 ]",
+      "creator_name": "小默",
+      "source": "wechat",
+      "status": "submitted",
+      "created_at": "2026-04-27T03:37:34.233Z",
+      "updated_at": "2026-04-27T03:37:56.877Z"
     }
   ]
 }

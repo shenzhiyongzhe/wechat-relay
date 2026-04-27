@@ -41,13 +41,16 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ── 服务端去重：检查相同 name + end_of_id + remark 是否已存在 ──
+    // ── 服务端去重：检查短时间内（5分钟内）是否已存在完全相同的消息 ──
     const existing = await getAllMessages();
+    const FIVE_MINUTES = 5 * 60 * 1000;
+    const now = Date.now();
     const isDuplicate = existing.some(
       m =>
         m.name === name &&
         m.end_of_id === end_of_id &&
-        (m.remark || '').trim() === (remark || '').trim()
+        (m.remark || '').trim() === (remark || '').trim() &&
+        (m.created_at && (now - new Date(m.created_at).getTime() < FIVE_MINUTES))
     );
 
     if (isDuplicate) {
