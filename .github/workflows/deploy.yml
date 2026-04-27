@@ -23,8 +23,8 @@ jobs:
           context: .
           load: true  # 不推送到仓库，而是加载到本地准备打包
           tags: wechat-relay:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # cache-from: type=gha
+          # cache-to: type=gha,mode=max
 
       - name: Save Docker image to tarball
         run: docker save wechat-relay:latest | gzip > wechat-relay-image.tar.gz
